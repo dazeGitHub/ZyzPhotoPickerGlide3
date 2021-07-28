@@ -1,12 +1,12 @@
 package me.iwf.photopicker.fragment;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 
@@ -88,7 +88,7 @@ public class ImagePagerFragment extends Fragment {
   }
 
 
-  @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
     View rootView = inflater.inflate(R.layout.__picker_picker_fragment_image_pager, container, false);

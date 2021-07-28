@@ -1,13 +1,15 @@
 package me.iwf.photopicker.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import java.io.File;
@@ -65,12 +67,12 @@ public class PhotoGridAdapter extends SelectableAdapter<PhotoGridAdapter.PhotoVi
     imageSize = widthPixels / columnNumber;
   }
 
-  @Override public int getItemViewType(int position) {
+   public int getItemViewType(int position) {
     return (showCamera() && position == 0) ? ITEM_TYPE_CAMERA : ITEM_TYPE_PHOTO;
   }
 
 
-  @Override public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     final View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.__picker_item_photo, parent, false);
     final PhotoViewHolder holder = new PhotoViewHolder(itemView);
     if (viewType == ITEM_TYPE_CAMERA) {
