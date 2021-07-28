@@ -22,8 +22,8 @@ android {
         applicationId "me.iwf.PhotoPickerDemo"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 16
-        versionName "1.0"
+        versionCode 22
+        versionName "1.6"
     }
     buildTypes {
         release {
