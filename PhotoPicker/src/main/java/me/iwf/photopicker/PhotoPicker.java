@@ -132,7 +132,7 @@ public class PhotoPicker {
             return this;
         }
 
-        public PhotoPickerBuilder setCustomeView(ICustomMadeUi customMadeUi) {
+        public PhotoPickerBuilder setCustomeTitleView(ICustomMadeUi customMadeUi) {
             ActivityData.INSTANCE.setCustomView(customMadeUi);
             return this;
         }

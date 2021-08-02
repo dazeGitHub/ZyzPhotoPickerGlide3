@@ -12,13 +12,13 @@ import android.view.View
 
 interface ICustomMadeUi {
 
-    fun titleLayout(context: Context,selectedAction: ISelectedAction): View?
+    fun titleLayout(context: Context, selectedAction: ISelectedAction): View?
 
-    fun setTitleCount(coutDes:String)
+    fun setTitleCount(coutDes: String)
 }
 
 
-interface ISelectedAction{
+interface ISelectedAction {
     fun done()
     fun back()
 }

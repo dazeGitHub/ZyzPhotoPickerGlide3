@@ -20,8 +20,9 @@ class CustomMade : ICustomMadeUi {
     var tvRight: TextView? = null
     var tvTitle: TextView? = null
     var ivImage: ImageView? = null
-    override fun titleLayout(context: Context,mSelectedAction: ISelectedAction): View? {
-        var view = LayoutInflater.from(context).inflate(R.layout.item_title, null)
+
+    override fun titleLayout(context: Context, mSelectedAction: ISelectedAction): View? {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_title, null)
         tvRight = view.findViewById<TextView>(R.id.tv_right)
         tvTitle = view.findViewById<TextView>(R.id.tv_title)
         ivImage = view.findViewById<ImageView>(R.id.iv_back)
@@ -36,4 +37,4 @@ class CustomMade : ICustomMadeUi {
         tvRight?.text = coutDes
     }
 
- }
+}

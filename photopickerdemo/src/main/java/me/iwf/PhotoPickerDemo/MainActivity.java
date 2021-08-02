@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         PhotoPicker.builder()
                 .setPhotoCount(9)
                 .setGridColumnCount(4)
-                .setCustomeView(new CustomMade())
+                .setCustomeTitleView(new CustomMade())
                 .start(MainActivity.this);
       }
     });
