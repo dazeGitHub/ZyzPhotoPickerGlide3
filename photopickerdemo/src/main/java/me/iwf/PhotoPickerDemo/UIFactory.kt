@@ -1,6 +1,5 @@
 package me.iwf.PhotoPickerDemo
 
-import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -33,8 +32,8 @@ class CustomMade : ICustomMadeUi {
         return view
     }
 
-    override fun setTitleCount(coutDes: String) {
-        tvRight?.text = coutDes
+    override fun setTitleCount(curSelectedCount: Int, maxSelectCount: Int) {
+        tvRight?.text = "完成($curSelectedCount/$maxSelectCount)"
     }
 
 }

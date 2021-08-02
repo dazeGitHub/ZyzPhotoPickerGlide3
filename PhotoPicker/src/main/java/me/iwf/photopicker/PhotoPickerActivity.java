@@ -105,11 +105,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements ISelectedA
                 }
 
                 if (iCustomeMadeUi != null) {
-                    if (maxCount > 1) {
-                        iCustomeMadeUi.setTitleCount(getString(R.string.__picker_done_with_count, selectedItemCount, maxCount));
-                    } else {
-                        iCustomeMadeUi.setTitleCount(getString(R.string.__picker_done));
-                    }
+                    iCustomeMadeUi.setTitleCount(selectedItemCount, maxCount);
                 } else {
                     if (menuDoneItem != null) {
                         if (maxCount > 1) {
@@ -162,11 +158,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements ISelectedA
                     }
                 } else {
                     if (iCustomeMadeUi != null) {
-                        if (maxCount > 1) {
-                            iCustomeMadeUi.setTitleCount(getString(R.string.__picker_done_with_count, size, maxCount));
-                        } else {
-                            iCustomeMadeUi.setTitleCount(getString(R.string.__picker_done));
-                        }
+                        iCustomeMadeUi.setTitleCount(size, maxCount);
                     }
                 }
             } else if (imagePagerFragment != null && imagePagerFragment.isResumed()) {

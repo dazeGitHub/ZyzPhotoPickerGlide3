@@ -11,12 +11,9 @@ import android.view.View
  **/
 
 interface ICustomMadeUi {
-
     fun titleLayout(context: Context, selectedAction: ISelectedAction): View?
-
-    fun setTitleCount(coutDes: String)
+    fun setTitleCount(curSelectedCount: Int, maxSelectCount: Int)
 }
-
 
 interface ISelectedAction {
     fun done()
