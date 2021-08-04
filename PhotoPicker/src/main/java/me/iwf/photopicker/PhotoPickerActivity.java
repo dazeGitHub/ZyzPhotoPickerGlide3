@@ -90,18 +90,17 @@ public class PhotoPickerActivity extends AppCompatActivity implements ISelectedA
                     menuDoneItem.setEnabled(selectedItemCount > 0);
                 }
 
-                if (mCurMaxCanSelectCount <= 1) {
+                if (maxCount <= 1) {
                     List<String> photos = pickerFragment.getPhotoGridAdapter().getSelectedPhotos();
                     if (!photos.contains(photo.getPath())) {
                         photos.clear();
                         pickerFragment.getPhotoGridAdapter().notifyDataSetChanged();
                     }
-                    return true;
+//                    return true;
                 }
 
-                if (selectedItemCount > mCurMaxCanSelectCount) {
-                    Toast.makeText(getActivity(), getString(R.string.__picker_over_max_count_tips, maxCount),
-                            LENGTH_LONG).show();
+                if (selectedItemCount > mCurMaxCanSelectCount && (maxCount != 1)) {
+                    Toast.makeText(getActivity(), getString(R.string.__picker_over_max_count_tips, maxCount), LENGTH_LONG).show();
                     return false;
                 }
 

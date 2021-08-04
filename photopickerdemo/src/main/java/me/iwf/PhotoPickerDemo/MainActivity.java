@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 PhotoPicker.builder()
-                        .setPhotoCount(9)
-                        .setAlreadySelectedCount(2)
+                        .setPhotoCount(1) //9
+                        .setAlreadySelectedCount(0)
                         .setGridColumnCount(4)
                         .start(MainActivity.this);
             }
