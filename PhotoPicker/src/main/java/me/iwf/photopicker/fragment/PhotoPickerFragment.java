@@ -96,7 +96,7 @@ public class PhotoPickerFragment extends Fragment {
 
         setRetainInstance(true);
 
-        mGlideRequestManager = Glide.with(this);
+        mGlideRequestManager = Glide.with(this.getContext());
 
         directories = new ArrayList<>();
         originalPhotos = getArguments().getStringArrayList(EXTRA_ORIGIN);
@@ -162,7 +162,7 @@ public class PhotoPickerFragment extends Fragment {
         recyclerView.setAdapter(photoGridAdapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        final Button btSwitchDirectory = (Button) rootView.findViewById(R.id.button);
+        final Button btSwitchDirectory = (Button) rootView.findViewById(R.id.pick_photo);
 
         listPopupWindow = new ListPopupWindow(getActivity());
         listPopupWindow.setWidth(ListPopupWindow.MATCH_PARENT);

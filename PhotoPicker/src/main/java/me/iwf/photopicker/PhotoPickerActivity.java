@@ -24,15 +24,6 @@ import me.iwf.photopicker.fragment.ImagePagerFragment;
 import me.iwf.photopicker.fragment.PhotoPickerFragment;
 
 import static android.widget.Toast.LENGTH_LONG;
-import static me.iwf.photopicker.PhotoPicker.DEFAULT_COLUMN_NUMBER;
-import static me.iwf.photopicker.PhotoPicker.DEFAULT_MAX_COUNT;
-import static me.iwf.photopicker.PhotoPicker.EXTRA_GRID_COLUMN;
-import static me.iwf.photopicker.PhotoPicker.EXTRA_MAX_COUNT;
-import static me.iwf.photopicker.PhotoPicker.EXTRA_ORIGINAL_PHOTOS;
-import static me.iwf.photopicker.PhotoPicker.EXTRA_PREVIEW_ENABLED;
-import static me.iwf.photopicker.PhotoPicker.EXTRA_SHOW_CAMERA;
-import static me.iwf.photopicker.PhotoPicker.EXTRA_SHOW_GIF;
-import static me.iwf.photopicker.PhotoPicker.KEY_SELECTED_PHOTOS;
 
 public class PhotoPickerActivity extends AppCompatActivity implements ISelectedAction {
 
@@ -40,7 +31,9 @@ public class PhotoPickerActivity extends AppCompatActivity implements ISelectedA
     private ImagePagerFragment imagePagerFragment;
     private MenuItem menuDoneItem;
 
-    private int maxCount = DEFAULT_MAX_COUNT;
+    private int maxCount = PhotoPicker.DEFAULT_MAX_COUNT;
+    private int mAlreadySelectedCount = 0;
+    private int mCurMaxCanSelectCount = 0;
 
     /**
      * to prevent multiple calls to inflate menu
@@ -56,9 +49,9 @@ public class PhotoPickerActivity extends AppCompatActivity implements ISelectedA
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        boolean showCamera = getIntent().getBooleanExtra(EXTRA_SHOW_CAMERA, true);
-        boolean showGif = getIntent().getBooleanExtra(EXTRA_SHOW_GIF, false);
-        boolean previewEnabled = getIntent().getBooleanExtra(EXTRA_PREVIEW_ENABLED, true);
+        boolean showCamera = getIntent().getBooleanExtra(PhotoPicker.EXTRA_SHOW_CAMERA, true);
+        boolean showGif = getIntent().getBooleanExtra(PhotoPicker.EXTRA_SHOW_GIF, false);
+        boolean previewEnabled = getIntent().getBooleanExtra(PhotoPicker.EXTRA_PREVIEW_ENABLED, true);
         iCustomeMadeUi = ActivityData.INSTANCE.getCustomView();
         setShowGif(showGif);
 
@@ -66,14 +59,22 @@ public class PhotoPickerActivity extends AppCompatActivity implements ISelectedA
 
         setTitle();
 
-        maxCount = getIntent().getIntExtra(EXTRA_MAX_COUNT, DEFAULT_MAX_COUNT);
-        int columnNumber = getIntent().getIntExtra(EXTRA_GRID_COLUMN, DEFAULT_COLUMN_NUMBER);
-        originalPhotos = getIntent().getStringArrayListExtra(EXTRA_ORIGINAL_PHOTOS);
+        maxCount = getIntent().getIntExtra(PhotoPicker.EXTRA_MAX_COUNT, PhotoPicker.DEFAULT_MAX_COUNT);
+        mAlreadySelectedCount = getIntent().getIntExtra(PhotoPicker.EXTRA_ALREADY_SELECTED_COUNT, 0);
+
+        if(maxCount >= mAlreadySelectedCount){
+            mCurMaxCanSelectCount = maxCount - mAlreadySelectedCount;
+        }else{
+            mCurMaxCanSelectCount = maxCount;
+        }
+
+        int columnNumber = getIntent().getIntExtra(PhotoPicker.EXTRA_GRID_COLUMN, PhotoPicker.DEFAULT_COLUMN_NUMBER);
+        originalPhotos = getIntent().getStringArrayListExtra(PhotoPicker.EXTRA_ORIGINAL_PHOTOS);
 
         pickerFragment = (PhotoPickerFragment) getSupportFragmentManager().findFragmentByTag("tag");
         if (pickerFragment == null) {
             pickerFragment = PhotoPickerFragment
-                    .newInstance(showCamera, showGif, previewEnabled, columnNumber, maxCount, originalPhotos);
+                    .newInstance(showCamera, showGif, previewEnabled, columnNumber, mCurMaxCanSelectCount, originalPhotos);
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.container, pickerFragment, "tag")
@@ -89,7 +90,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements ISelectedA
                     menuDoneItem.setEnabled(selectedItemCount > 0);
                 }
 
-                if (maxCount <= 1) {
+                if (mCurMaxCanSelectCount <= 1) {
                     List<String> photos = pickerFragment.getPhotoGridAdapter().getSelectedPhotos();
                     if (!photos.contains(photo.getPath())) {
                         photos.clear();
@@ -98,18 +99,18 @@ public class PhotoPickerActivity extends AppCompatActivity implements ISelectedA
                     return true;
                 }
 
-                if (selectedItemCount > maxCount) {
+                if (selectedItemCount > mCurMaxCanSelectCount) {
                     Toast.makeText(getActivity(), getString(R.string.__picker_over_max_count_tips, maxCount),
                             LENGTH_LONG).show();
                     return false;
                 }
 
                 if (iCustomeMadeUi != null) {
-                    iCustomeMadeUi.setTitleCount(selectedItemCount, maxCount);
+                    iCustomeMadeUi.setTitleCount(mAlreadySelectedCount + selectedItemCount, maxCount);
                 } else {
                     if (menuDoneItem != null) {
-                        if (maxCount > 1) {
-                            menuDoneItem.setTitle(getString(R.string.__picker_done_with_count, selectedItemCount, maxCount));
+                        if (mCurMaxCanSelectCount > 1) {
+                            menuDoneItem.setTitle(getString(R.string.__picker_done_with_count, mAlreadySelectedCount + selectedItemCount, maxCount));
                         } else {
                             menuDoneItem.setTitle(getString(R.string.__picker_done));
                         }
@@ -158,7 +159,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements ISelectedA
                     }
                 } else {
                     if (iCustomeMadeUi != null) {
-                        iCustomeMadeUi.setTitleCount(size, maxCount);
+                        iCustomeMadeUi.setTitleCount(mAlreadySelectedCount + size, maxCount);
                     }
                 }
             } else if (imagePagerFragment != null && imagePagerFragment.isResumed()) {
@@ -269,7 +270,7 @@ public class PhotoPickerActivity extends AppCompatActivity implements ISelectedA
             }
         }
         if (selectedPhotos != null && selectedPhotos.size() > 0) {
-            intent.putStringArrayListExtra(KEY_SELECTED_PHOTOS, selectedPhotos);
+            intent.putStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS, selectedPhotos);
             setResult(RESULT_OK, intent);
             finish();
         }
